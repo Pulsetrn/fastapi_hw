@@ -4,7 +4,8 @@ from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
 
 from api.db_models.models import Todo
-from pydantic_models.models import TodoCreate, TodoUpdate
+from .pydantic_models.models import TodoCreate, TodoUpdate
+
 
 async def create_todo(todo_data: TodoCreate, user_id: UUID, session: AsyncSession):
     new_todo = Todo(**todo_data.model_dump(), user_id=user_id)

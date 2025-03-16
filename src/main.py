@@ -1,8 +1,8 @@
 import uvicorn
 from fastapi import FastAPI
 from api.auth import fastapi_users, auth_backend
-from api import router as api_router
 from api.pydantic_models.models import UserCreate, UserRead
+from api.routes import router as api_router
 
 app = FastAPI()
 app.include_router(api_router)

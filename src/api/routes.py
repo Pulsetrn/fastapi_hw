@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 from api.db_models.models import User
 from config.db_helper import db_helper
-from pydantic_models.models import TodoCreate, TodoUpdate, TodoResponse
+from .pydantic_models.models import TodoCreate, TodoUpdate, TodoResponse
 from .crud import (
     create_todo,
     get_user_todos,
@@ -11,7 +11,7 @@ from .crud import (
     update_todo,
     delete_todo,
 )
-from auth import current_active_user
+from .auth import current_active_user
 
 router = APIRouter(prefix="/todos", tags=["Todos"])
 
