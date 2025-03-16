@@ -2,7 +2,7 @@ from uuid import UUID
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
-
+from sqlalchemy import asc, desc
 from api.db_models.models import Todo
 from .pydantic_models.models import TodoCreate, TodoUpdate
 
@@ -45,3 +45,20 @@ async def delete_todo(todo_id: int, user_id: UUID, session: AsyncSession):
         await session.delete(todo)
         await session.commit()
     return todo
+
+
+async def get_top_n_todos(top_n: int, user_id: UUID, session: AsyncSession):
+    result = await session.execute(
+        select(Todo)
+        .where(Todo.user_id == user_id)
+        .order_by(desc(Todo.priority))
+        .limit(top_n)
+    )
+    return result.scalars().all()
+
+
+async def sort_by_criteria(order_by, user_id: UUID, session: AsyncSession):
+    result = await session.execute(
+        select(Todo).where(Todo.user_id == user_id).order_by(order_by)
+    )
+    return result.scalars().all()
