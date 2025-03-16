@@ -1,3 +1,4 @@
+import datetime
 from pydantic import BaseModel
 
 import uuid
@@ -36,6 +37,7 @@ class TodoUpdate(BaseModel):
 class TodoResponse(TodoCreate):
     id: int
     user_id: uuid.UUID
+    time_created: datetime.datetime
 
     class Config:
         orm_mode = True
