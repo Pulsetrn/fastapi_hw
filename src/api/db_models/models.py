@@ -1,10 +1,9 @@
-from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTableUUID
 import enum
+import uuid
 
-from sqlalchemy import Column, DateTime, Enum, Integer, String, func
-from sqlalchemy.orm import relationship, Mapped, mapped_column
-
-from sqlalchemy.orm import declarative_base
+from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTableUUID
+from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, func
+from sqlalchemy.orm import Mapped, declarative_base, mapped_column, relationship
 
 Base = declarative_base()
 
@@ -32,3 +31,6 @@ class Todo(Base):
     priority: Mapped[int] = mapped_column(Integer, nullable=False)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     owner: Mapped["User"] = relationship(back_populates="todos")
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )

@@ -2,11 +2,12 @@ import uuid
 from fastapi_users.db import SQLAlchemyUserDatabase
 from fastapi_users import FastAPIUsers, UUIDIDMixin
 from fastapi_users.authentication import JWTStrategy, AuthenticationBackend
-from fastapi_users.manager import BaseUserManager, UserManagerDependency
+from fastapi_users.manager import BaseUserManager
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from config.db_helper import db_helper
 from api.db_models.models import User
+from fastapi_users.authentication import BearerTransport
 
 SECRET = "SECRET_KEY"
 
@@ -19,15 +20,18 @@ def get_jwt_strategy() -> JWTStrategy:
     return JWTStrategy(secret=SECRET, lifetime_seconds=3600)
 
 
+bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
+
 auth_backend = AuthenticationBackend(
     name="jwt",
-    transport=JWTStrategy(secret=SECRET, lifetime_seconds=3600),
+    transport=bearer_transport,
     get_strategy=get_jwt_strategy,
 )
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
-    user_db_model = User
+    reset_password_token_secret = SECRET
+    verification_token_secret = SECRET
 
 
 async def get_user_manager(user_db=Depends(get_user_db)):
