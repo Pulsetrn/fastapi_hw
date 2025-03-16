@@ -10,6 +10,7 @@ Base = declarative_base()
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
+    __tablename__ = "users"
     todos: Mapped[list["Todo"]] = relationship(back_populates="owner")
 
 
@@ -20,6 +21,7 @@ class StatusEnum(enum.Enum):
 
 
 class Todo(Base):
+    __tablename__ = "todos"
     id: Mapped[int] = mapped_column(primary_key=True)
 
     title: Mapped[str] = mapped_column(String, nullable=False)
