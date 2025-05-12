@@ -19,7 +19,7 @@ from .auth import current_active_user
 router = APIRouter(prefix="/todos", tags=["Todos"])
 
 
-@router.post("/", response_model=TodoResponse)
+@router.post("/", response_model=TodoResponse, status_code=201)
 async def create(
     todo_data: TodoCreate,
     session: AsyncSession = Depends(db_helper.session_getter),
@@ -83,11 +83,6 @@ async def search_todos(
         .where(Todo.title.ilike(f"%{query}%") | Todo.description.ilike(f"%{query}%"))
     )
     return result.scalars().all()
-    # OR
-    # return [
-    #     todo for todo in todos if query.lower() in todo.title.lower() or query.lower() in todo.description.lower()
-    # ]
-    # By using loop O(n + m) without using db (only for getting data)
 
 
 @router.put("/{todo_id}", response_model=TodoResponse)

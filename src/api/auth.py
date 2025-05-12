@@ -1,13 +1,18 @@
 import uuid
-from fastapi_users.db import SQLAlchemyUserDatabase
-from fastapi_users import FastAPIUsers, UUIDIDMixin
-from fastapi_users.authentication import JWTStrategy, AuthenticationBackend
-from fastapi_users.manager import BaseUserManager
+
 from fastapi import Depends
+from fastapi_users import FastAPIUsers, UUIDIDMixin
+from fastapi_users.authentication import (
+    AuthenticationBackend,
+    BearerTransport,
+    JWTStrategy,
+)
+from fastapi_users.manager import BaseUserManager
+from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from sqlalchemy.ext.asyncio import AsyncSession
-from config.db_helper import db_helper
+
 from api.db_models.models import User
-from fastapi_users.authentication import BearerTransport
+from config.db_helper import db_helper
 
 SECRET = "SECRET_KEY"
 
