@@ -14,4 +14,4 @@
 
 2)docker compose up - для запуска контейнеров
 
-3) docker compose down - удалить контейнеры
+3)docker compose down - удалить контейнеры
