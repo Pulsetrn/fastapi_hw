@@ -8,12 +8,10 @@
 ---
 
 # Работа с docker
-1) В папке src:
-docker compose build
+В папке src:
+1)docker compose build
 - для сборки образов
-2)
-docker compose up
+2)docker compose up
 - для запуска контейнеров
-3) 
-docker compose down
+3) docker compose down
 - удалить контейнеры
