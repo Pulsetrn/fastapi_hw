@@ -6,5 +6,5 @@ load_dotenv()
 
 DATABASE_URL = os.getenv(
     "TEST_CONFIG__DB__URL",
-    "postgresql+asyncpg://postgres:postgres@localhost:5432/todo_db",
+    "postgresql+asyncpg://user:password@pg:5432/todo",
 )
